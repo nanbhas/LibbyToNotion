@@ -49,6 +49,7 @@ What it does
 |   +-- __init__.py
 +-- .gitignore
 +-- juyptext.toml
++-- LICENSE
 +-- README.md
 +-- requirements.txt
 ```
