@@ -1,0 +1,12 @@
+jupyterlab
+jupytext
+tqdm
+numpy
+pandas
+torch
+torchvision
+pillow
+seaborn
+scipy
+scikit-learn
+tabulate
