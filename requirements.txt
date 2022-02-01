@@ -1,12 +1,7 @@
+arrow
 jupyterlab
 jupytext
-tqdm
+notion-client
 numpy
 pandas
-torch
-torchvision
-pillow
-seaborn
-scipy
-scikit-learn
-tabulate
+tqdm
