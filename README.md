@@ -62,7 +62,7 @@ Date properties: LibbyDate
 ## Sources
 
 - [Libby](https://libbyapp.com/)
-- - [Notion API Python SDK](https://github.com/ramnes/notion-sdk-py)
+- [Notion API Python SDK](https://github.com/ramnes/notion-sdk-py)
 
 
 ## If you use it in your work and want to adapt this code, please consider starring this repo or forking from it!
