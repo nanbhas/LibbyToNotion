@@ -4,4 +4,5 @@ jupytext
 notion-client
 numpy
 pandas
+requests
 tqdm
