@@ -1,6 +1,6 @@
 """
 Author: Nandita Bhaskhar
-End-to-end script for getting updates from Libby on to the Notion Database of your choice
+Test script to test the data retrieval from Libby
 """
 
 import sys
