@@ -1,7 +1,6 @@
 # Custom
-secrets/README.md
-secrets/secrets_libby.json
-secrets/secrets_notion.json
+secrets/*
+!secrets/*_dummy.json
 data_temp
 STDOUTlog.txt
 
