@@ -13,6 +13,7 @@ import json
 from notion_client import Client
 
 from lib.port_utils import portFullLibbyListToNotion
+from lib.port_utils import updatePageCoversInNotion
 
 from lib.utils import *
 
@@ -23,7 +24,8 @@ PYTHON = sys.executable
 parser = argparse.ArgumentParser()
 parser.add_argument('--fullLibby', default = True, type = strToBool,
                     help = 'Should the full libby timeline be used or only the latest updates to it')
-
+parser.add_argument('--oneTimeCoverUpdate', default = False, type = strToBool,
+                    help = 'One time run through of the full libby timeline to update the cover images')
 # main script
 if __name__ == "__main__":
 
@@ -36,6 +38,7 @@ if __name__ == "__main__":
 
     # read arguments
     fullLibby = args.fullLibby
+    oneTimeCoverUpdate = args.oneTimeCoverUpdate
 
     # open secrets 
     with open(constants.LIBBY_SECRET_FILE, "r") as f:
@@ -54,6 +57,9 @@ if __name__ == "__main__":
         portFullLibbyListToNotion(notion, notionDB_id, fileURL)
     else:
         NotImplementedError
+
+    if oneTimeCoverUpdate:
+        updatePageCoversInNotion(notion, notionDB_id, fileURL)
 
     end = arrow.get(time.time()).to('US/Pacific').format('YYYY-MM-DD HH:mm:ss ZZ')
     print('\n\n' + 'Ending at ' + str(end)) 
