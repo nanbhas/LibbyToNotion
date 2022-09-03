@@ -3,11 +3,11 @@ Author: Nandita Bhaskhar
 Notion helper functions
 """
 
-import os
 from select import select
 import sys
 sys.path.append('../')
 
+import pprint
 import time
 import arrow
 import json
@@ -131,6 +131,23 @@ def getAllLibbyItems(fileURL, onlyBorrowed = True):
 
     return libbyList
 
+def getNotionPageCoverImageFromProp(prop):
+    '''
+    Get the cover image url from the prop dict
+    Args:
+        prop: (dict)
+    Returns:
+        notionCover: (dict)
+    '''
+
+    notionCover = {
+    'type': 'external', 
+    'external': {
+        'url': prop['CoverURL']
+        }
+    }
+    return notionCover
+
 
 def getNotionPageEntryFromProp(prop):
     '''
@@ -144,7 +161,8 @@ def getNotionPageEntryFromProp(prop):
     dateKeys = {'LibbyDate'}
     titleKeys = {'Name'}
     selectKeys = {'Status', 'Format'}
-    textKeys = set(prop.keys()) - dateKeys - titleKeys - selectKeys
+    coverKeys = {'CoverURL'}
+    textKeys = set(prop.keys()) - dateKeys - titleKeys - selectKeys - coverKeys
     newPage = {
         "Name": {"title": [{"text": {"content": prop['Name']}}]}
     }
@@ -189,17 +207,69 @@ def portFullLibbyListToNotion(notion, notionDB_id, fileURL = None):
             notionRow = []
 
         if len(notionRow) >= 1: # duplicate already present
-            print('Skipping. Already present: ', prop['Name'])
-            pass
-        else:
+
+            notionRow = notionRow[0]
+
+            if notionRow['cover']: # cover already present
+                print('Skipping. Already present: ', prop['Name'])
+                pass
+            else: # cover not present
+                print('Updating cover: ', prop['Name'])
+                pageID = notionRow['id']
+                notionCover = getNotionPageCoverImageFromProp(prop)
+                notion.pages.update(pageID, cover = notionCover)
+
+        else: # entry not present in notion
+
             notionPage = getNotionPageEntryFromProp(prop)
+            notionCover = getNotionPageCoverImageFromProp(prop)
             try:
-                notion.pages.create(parent={"database_id": notionDB_id}, properties = notionPage)
+                print('Creating entry for: ', prop['Name'])
+                notion.pages.create(parent={"database_id": notionDB_id}, cover = notionCover, properties = notionPage)
             except:
                 print('Sleeping to avoid rate limit')
                 time.sleep(30)
-                notion.pages.create(parent={"database_id": notionDB_id}, properties = notionPage)
+                notion.pages.create(parent={"database_id": notionDB_id}, cover = notionCover, properties = notionPage)
 
 
+def updatePageCoversInNotion(notion, notionDB_id, fileURL = None):
+    '''
+    Update all page covers of all libby items in Notion
+    Args:
+        notion: (notion Client) Notion client object
+        notionDB_id: (str) string code id for the relevant database
+        fileURL: (default None, else str representing an url) if provided should be the json file url with Libby timeline export data
+    '''
 
+    if not fileURL:
+        with open(constants.LIBBY_SECRET_FILE, "r") as f:
+            secrets_libby = json.load(f)
+        fileURL = secrets_libby["url"]
 
+    allNotionRows = getAllRowsFromNotionDatabase(notion, notionDB_id)
+
+    libbyList = getAllLibbyItems(fileURL, onlyBorrowed=False)
+
+    libbyTitles = [ item['Name'] for item in libbyList ]
+    pprint.pprint(libbyTitles)
+    print('\n\n')
+
+    for notionRow in allNotionRows:
+
+        if notionRow['properties']['Status']['select']['name'] == 'libby-inbox':
+
+                try:
+                    prop = [prop for prop in libbyList if prop['ISBN'] == notionRow['properties']['ISBN']['rich_text'][0]['text']['content']][0]
+                    print('Found libby item: ', prop['Name'])
+                except:
+                    # libby item not found
+                    prop = None
+    
+                if prop:
+                    if notionRow['cover']:
+                        print('Skipping. Already has cover: ', prop['Name'])
+                    else:
+                        print('Updating cover: ', prop['Name'])
+                        pageID = notionRow['id']
+                        notionCover = getNotionPageCoverImageFromProp(prop)
+                        notion.pages.update(pageID, cover = notionCover)
