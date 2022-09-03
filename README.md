@@ -20,8 +20,14 @@ This project allows you to populate your Notion "Books" database with ebooks / a
 |   +-- Trial.py
 +-- scripts/
 |   +-- runLibbyToNotion.sh
++-- secrets/
+|   +-- secrets_notion.json
+|   +-- secrets_libby.json
 +-- src/
 |   +-- libbyToNotion.py
++-- tests/
+|   +-- testNotionAPI.py
+|   +-- testLibbyDataRetrieval.py
 +-- .gitignore
 +-- juyptext.toml
 +-- LICENSE
