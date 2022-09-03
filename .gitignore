@@ -1,5 +1,8 @@
 # Custom
-secrets
+secrets/README.md
+secrets/secrets_libby.json
+secrets/secrets_notion.json
+data_temp
 STDOUTlog.txt
 
 # Byte-compiled / optimized / DLL files
