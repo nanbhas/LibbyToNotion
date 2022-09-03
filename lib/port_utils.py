@@ -83,22 +83,40 @@ def getAllRowsFromNotionDatabase(notion, notionDB_id):
     return allNotionRows
 
 
-def getAllLibbyItems(fileURL):
+def getAllLibbyItems(fileURL, onlyBorrowed = True):
     '''
     Gets a list of all unique items (borrowed books) in Libby timeline with each item represented by a dict
     Args: 
-        fileURL: (str) the json file url with Libby timeline export data
+        fileURL: (str) the json file url with Libby timeline export data or path to local json file
+        onlyBorrowed: (bool) whether to only include borrowed items or all items
     Returns:
         libbyList: (list of dicts) each dict is a borrowed book with relevant keys like Title, Author, etc
     '''
 
-    with urllib.request.urlopen(fileURL) as url:
-        data = json.loads(url.read().decode())
+    if fileURL.startswith('http'):
+        with urllib.request.urlopen(fileURL) as url:
+            data = json.loads(url.read().decode())
+    else:
+        with open(fileURL) as f:
+            data = json.load(f)
 
     ibsnList = []
     libbyList = []
     for item in tqdm(data['timeline']):
-        if item['activity'] == 'Borrowed':
+        if onlyBorrowed:
+            if item['activity'] == 'Borrowed':
+                if item['isbn'] not in ibsnList:
+                    prop = {}
+                    prop['Name'] = item['title']['text']
+                    prop['Author'] = item['author']
+                    prop['Format'] = item['cover']['format']
+                    prop['LibbyDate'] = str(arrow.get(item['timestamp']).to('US/Pacific').date())
+                    prop['ISBN'] = item['isbn']
+                    ibsnList.append(item['isbn'])
+                    prop['Status'] = 'libby-inbox'
+                    prop['CoverURL'] = item['cover']['url']
+                    libbyList.append(prop)
+        else:
             if item['isbn'] not in ibsnList:
                 prop = {}
                 prop['Name'] = item['title']['text']
@@ -108,6 +126,7 @@ def getAllLibbyItems(fileURL):
                 prop['ISBN'] = item['isbn']
                 ibsnList.append(item['isbn'])
                 prop['Status'] = 'libby-inbox'
+                prop['CoverURL'] = item['cover']['url']
                 libbyList.append(prop)
 
     return libbyList
