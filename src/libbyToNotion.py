@@ -12,8 +12,6 @@ import json
 
 from notion_client import Client
 
-from lib.port_utils import getAllRowsFromNotionDatabase, getAllLibbyItems
-from lib.port_utils import getNotionPageEntryFromProp
 from lib.port_utils import portFullLibbyListToNotion
 
 from lib.utils import *
@@ -56,3 +54,7 @@ if __name__ == "__main__":
         portFullLibbyListToNotion(notion, notionDB_id, fileURL)
     else:
         NotImplementedError
+
+    end = arrow.get(time.time()).to('US/Pacific').format('YYYY-MM-DD HH:mm:ss ZZ')
+    print('\n\n' + 'Ending at ' + str(end)) 
+    print('==========================================================\n\n')
