@@ -72,5 +72,14 @@ Date properties: LibbyDate
 
 
 ## If you use it in your work and want to adapt this code, please consider starring this repo or forking from it!
+
+```
+@misc{nanbhas2022_libbyToNotion,
+  title={Libby To Notion},
+  author={Nandita Bhaskhar},
+  journal={GitHub Repo, https://github.com/nanbhas/LibbyToNotion},
+  year={2022}
+}
+``` 
  
 
