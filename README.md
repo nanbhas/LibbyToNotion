@@ -2,10 +2,9 @@
  
 # Libby To Notion     
 
+<img src="docs/LibbyToNotion.png" alt="LibbyToNotion" style="width:200px;"/>
+
 </div>
-
-
-<img src="docs/LibbyToNotion.png" alt="LibbyToNotion" style="width:200px; margin-left: auto; margin-right: auto;"/>
 
 ---
  
