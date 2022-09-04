@@ -73,7 +73,7 @@ Date properties: LibbyDate
 ```
 7. Run the python script `src/libbyToNotion.py` with `--fullLibby` argument as `True`. Note that this will automatically set the `Status` of all items from Libby to be `libby-inbox`. 
 8. Currently, the logic takes in all unique borrowed items from the Libby Timeline, gets all the rows from the Notion database, and verifies that items aren't repeated. This can be made more efficient if needed by filtering out only recently added items from the Timeline (set `--fullLibby` to `False` and populate the `else` block which currently shows `NotImplementedError`). But for now, it is simpler to just modify it locally after getting all items from the Timeline on Libby. To do a one time cover update, set argument `--oneTimeCoverUpdate` to `True` and `--fullLibby` to `False`.
-9. You can periodically run this file again as a script `scripts/runLibbyToNotion.sh` using a crontab job to get periodic updates
+9. You can periodically run this file again as a script `scripts/runLibbyToNotion.sh` using a crontab job to get periodic updates. For more information on Crontab, check out this [reference](https://crontab.guru/).
 
 
 ## Sources
