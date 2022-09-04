@@ -88,7 +88,7 @@ Date properties: LibbyDate
 @misc{nanbhas2022_libbyToNotion,
   title={Libby To Notion},
   author={Nandita Bhaskhar},
-  journal={GitHub Repo, https://github.com/nanbhas/LibbyToNotion},
+  howpublished={GitHub Repo, https://github.com/nanbhas/LibbyToNotion},
   year={2022}
 }
 ``` 
