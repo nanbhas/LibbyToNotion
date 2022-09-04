@@ -5,7 +5,7 @@
 </div>
 
 
-<img src="docs/LibbyToNotion.png" alt="LibbyToNotion" style="width:200px;"/>
+<img src="docs/LibbyToNotion.png" alt="LibbyToNotion" style="width:200px; margin-left: auto; margin-right: auto"/>
 
 ---
  
