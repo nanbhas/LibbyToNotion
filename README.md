@@ -6,7 +6,6 @@
 
 </div>
 
----
  
 ## Description   
 This project allows you to populate your Notion "Books" database with ebooks / audiobooks borrowed via Libby using the Notion API and the Libby Timeline Export. If you'd like this to happen periodically, run the script `scripts/runLibbyToNotion.sh` at a reasonable frequency using a `crontab` job. 
