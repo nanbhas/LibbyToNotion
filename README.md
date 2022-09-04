@@ -3,6 +3,10 @@
 # Libby To Notion     
 
 </div>
+
+![LibbyToNotion](docs/LibbyToNotion.png)
+
+---
  
 ## Description   
 This project allows you to populate your Notion "Books" database with ebooks / audiobooks borrowed via Libby using the Notion API and the Libby Timeline Export. If you'd like this to happen periodically, run the script `scripts/runLibbyToNotion.sh` at a reasonable frequency using a `crontab` job. 
@@ -11,6 +15,10 @@ This project allows you to populate your Notion "Books" database with ebooks / a
 
 ```
 .
++-- docs/
+|   +-- images/
+|   |   +-- demo.png
+|   |   +-- icon.png
 +-- globalStore/
 |   +-- constants.py
 +-- lib/
@@ -64,7 +72,9 @@ Date properties: LibbyDate
 8. Currently, the logic takes in all unique borrowed items from the Libby Timeline, gets all the rows from the Notion database, and verifies that items aren't repeated. This can be made more efficient if needed by filtering out only recently added items from the Timeline (set `--fullLibby` to `False` and populate the `else` block which currently shows `NotImplementedError`). But for now, it is simpler to just modify it locally after getting all items from the Timeline on Libby. To do a one time cover update, set argument `--oneTimeCoverUpdate` to `True` and `--fullLibby` to `False`.
 9. You can periodically run this file again as a script `scripts/runLibbyToNotion.sh` using a crontab job to get periodic updates
 
-
+---
+![LibbyToNotionScreenshot](docs/LibbyToNotion_screenshot.png)
+---
 ## Sources
 
 - [Libby](https://libbyapp.com/)
