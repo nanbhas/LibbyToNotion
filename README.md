@@ -55,6 +55,7 @@ This project allows you to populate your Notion "Books" database with ebooks / a
     "url": "add the timeline json url here"
 }
 ```
+**Note**: Remember to click `Export Timeline` -> `Data (json)` often as you borrow books via Libby. This is to synchronize your account with the URL.
 3. Register a private integration on your Notion workspace (follow instructions [online](https://www.notion.so/help/create-integrations-with-the-notion-api#create-an-internal-integration))
 4. Obtain its `notionToken`
 5. Create a database / choose existing database on Notion to contain all the entries from Libby. Make sure it has the following properties. If you want to add more properties or remove, modify the function `getAllLibbyItems` and `getNotionPageEntryFromProp` in `lib/port_utils.py`.
