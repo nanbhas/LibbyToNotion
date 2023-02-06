@@ -12,6 +12,7 @@ import time
 import arrow
 import json
 import urllib.request
+import hashlib
 
 from globalStore import constants
 
@@ -103,28 +104,32 @@ def getAllLibbyItems(fileURL, onlyBorrowed = True):
     ibsnList = []
     libbyList = []
     for item in tqdm(data['timeline']):
+        # generate a hash of the title and author to check for duplicates
+        hash = hashlib.md5((item['title']['text'] + item['author']).encode('utf-8')).hexdigest()
+        isbn = item.get('isbn', hash)
         if onlyBorrowed:
             if item['activity'] == 'Borrowed':
-                if item['isbn'] not in ibsnList:
+                if isbn not in ibsnList:
                     prop = {}
                     prop['Name'] = item['title']['text']
                     prop['Author'] = item['author']
                     prop['Format'] = item['cover']['format']
                     prop['LibbyDate'] = str(arrow.get(item['timestamp']).to('US/Pacific').date())
-                    prop['ISBN'] = item['isbn']
-                    ibsnList.append(item['isbn'])
+                    prop['ISBN'] = isbn
+                    ibsnList.append(isbn)
                     prop['Status'] = 'libby-inbox'
                     prop['CoverURL'] = item['cover']['url']
                     libbyList.append(prop)
+
         else:
-            if item['isbn'] not in ibsnList:
+            if isbn not in ibsnList:
                 prop = {}
                 prop['Name'] = item['title']['text']
                 prop['Author'] = item['author']
                 prop['Format'] = item['cover']['format']
                 prop['LibbyDate'] = str(arrow.get(item['timestamp']).to('US/Pacific').date())
-                prop['ISBN'] = item['isbn']
-                ibsnList.append(item['isbn'])
+                prop['ISBN'] = isbn
+                ibsnList.append(isbn)
                 prop['Status'] = 'libby-inbox'
                 prop['CoverURL'] = item['cover']['url']
                 libbyList.append(prop)
